@@ -1,0 +1,18 @@
+extends ../layouts/main-layouts.pug 
+
+
+ 
+include ../mixin/createProduct.pug
+
+
+block content 
+    
+    include ../mixin/slider.pug 
+    .row
+
+        if products.length > 0
+            each product in products
+                +createProduct(product)
+
+        else
+            h1 No Products    

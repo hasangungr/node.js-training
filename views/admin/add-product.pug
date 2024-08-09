@@ -1,0 +1,42 @@
+extends ../layouts/main-layouts.pug 
+
+
+block styles
+    link(rel="stylesheet" href="../public/css/form.css")
+
+block content 
+        div.col-lg-9
+            h1 Add Product
+            hr
+            form(method="POST" action="/admin/add-product")
+                div.form-group.row
+                    label(for="productName").col-sm-2.col-form-label Product Name
+                    div.col-sm-10 
+                        input.form-control#name(type="text" name="name")
+                    
+                div.form-group.row
+                    label(for="price").col-sm-2.col-form-label Price
+                    div.col-sm-10 
+                        input.form-control#price(type="text" name="price ")
+                        
+                        
+                        
+                div.form-group.row
+                    label(for="imageUrl").col-sm-2.col-form-label Image
+                    div.col-sm-10 
+                        input.form-control#image(type="text" name="imageUrl")
+
+                div.form-group.row
+                    label(for="description").col-sm-2.col-form-label Description
+                    div.col-sm-10 
+                        input.form-control#description(type="text" name="description")
+                    
+                               
+             
+
+
+                .form-group.row
+                    .col-sm-10.offset-sm-2
+                        input(type="submit" value="Save Product").btn.btn-primary  
+ 
+  
