@@ -8,28 +8,35 @@ block content
         div.col-lg-9
             h1 Add Product
             hr
-            form(method="POST" action="/admin/edit-product")
+            form(method="POST" action="/admin/products")
+
+                
+
+
+                input#id(type="hidden" name="id" value=product.id)
+
+
                 div.form-group.row
                     label(for="productName").col-sm-2.col-form-label Product Name
                     div.col-sm-10 
-                        input.form-control#name(type="text" name="name")
+                        input.form-control#name(type="text" name="name", value=product.name)
                     
                 div.form-group.row
                     label(for="price").col-sm-2.col-form-label Price
                     div.col-sm-10 
-                        input.form-control#price(type="text" name="price ")
+                        input.form-control#price(type="text" name="price", value=product.price)
                         
                         
                         
                 div.form-group.row
                     label(for="imageUrl").col-sm-2.col-form-label Image
                     div.col-sm-10 
-                        input.form-control#image(type="text" name="imageUrl")
+                        input.form-control#image(type="text" name="imageUrl", value=product.imageUrl)
 
                 div.form-group.row
                     label(for="description").col-sm-2.col-form-label Description
                     div.col-sm-10 
-                        input.form-control#description(type="text" name="description")
+                        input.form-control#description(type="text" name="description", value=product.description)
                     
                                
              

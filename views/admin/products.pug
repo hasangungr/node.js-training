@@ -10,15 +10,15 @@ block content
                         th Image 
                         th Product Name 
                         th Price 
-                        th 
+                        th Description
                 tbody
                     each product in products
                         tr
                             td
                                 img(src=`/img/${product.imageUrl}` width = 80)
                             td #{product.name}
-                            td #{product.price}
-                            td #{product.description} TL
+                            td #{product.price} TL
+                            td #{product.description} 
                             td
                                 a.btn.btn-primary.btn-sm(href=`/admin/products/${product.id}`) Edit
         else

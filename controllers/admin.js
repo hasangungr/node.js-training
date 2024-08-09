@@ -27,7 +27,7 @@ exports.getAddProduct = (req, res, next) => { //product ekleme sayfası
 
 exports.postAddProducts = (req, res, next) => { //sadece post da çalışır
     // console.log(req.body); //body-parse olmadan undefined döner 
- 
+
     // products.push({ name: req.body.name, price: req.body.price, image: req.body.image, description: req.body.description });
     // console.log(req.body);
 
@@ -40,12 +40,17 @@ exports.postAddProducts = (req, res, next) => { //sadece post da çalışır
 
 
 exports.getEditProduct = (req, res, next) => {
-    console.log('add product get middleware')
+
+
+    const product = Product.getById(req.params.productid);
+
+
 
 
     res.render('admin/edit-product', {
         title: "Edit Product",
-        path: "/admin/edit-product"
+        path: "/admin/products",
+        product: product 
     }); //engine kullanılır viewse gider ve pugdosyasını çalıştırır
 }
 
@@ -54,7 +59,16 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postEditProduct = (req, res, next) => { //sadece post da çalışır
 
-    res.redirect('/'); //işlemler bittikten sonra anasayfa ya dön
+
+    const product = Product.getById(req.body.id);
+
+    product.name = req.body.name;
+    product.price = req.body.price;
+    product.description = req.body.description;
+
+    Product.update(product);
+
+
+    res.redirect('/admin/products'); //işlemler bittikten sonra anasayfa ya dön
 }
 
- 

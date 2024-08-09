@@ -15,7 +15,7 @@ const errorControllers = require('./controllers/error'); //error route
 app.use(bp.urlencoded({ extended: false })); //temel veri türlerini parse eder
 app.use('/admin', adminRoutes); //middleware app use ile kullanılmalı //admin route'daki middlewareleri kullanmak için
 app.use(userRoutes); //middleware app use ile kullanılmalı //shopdaki route'daki middlewareleri kullanmak için
-app.use(errorControllers.get404page);
+
  
 
 
@@ -25,6 +25,10 @@ app.use(errorControllers.get404page);
 //     console.log('internal mid');
 //     next(); //bu middle bitip diğer middle'a geçer, bunu yazmazsan bir sonraki midd'e geçmez veya response döndürürse geçmez
 // });
+
+ 
+
+app.use(errorControllers.get404page);
 
 
 

@@ -56,7 +56,7 @@ exports.getOrders = (req, res, next) => { //orders info
 
 exports.getProduct = (req, res, next) => {//product sayfası
 
-    const productId = req.params.productid
+ 
 
     const product = Product.getById(req.params.productid);
 
