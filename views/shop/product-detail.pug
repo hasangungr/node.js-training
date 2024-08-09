@@ -1,0 +1,19 @@
+extends ../layouts/main-layouts.pug 
+
+
+ 
+block content
+    .row
+        .col-md-4
+             
+        .col-md-8.pl-12
+            hr
+            h1 #{product.name}
+            hr
+
+            p #{product.description}
+            hr
+            p  price: #{product.price}
+            button(type="submit").btn.btn-primary.btn-lg Add To Chart
+
+

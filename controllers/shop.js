@@ -22,8 +22,8 @@ exports.getProducts = (req, res, next) => { //all products
         title: "Products",
         products: products,
         path: "/products"
-        
-    });  
+
+    });
 };
 
 
@@ -32,8 +32,8 @@ exports.getProductDetails = (req, res, next) => { //product detail
     res.render('shop/details', {
         title: "Details",
         path: "/details"
-        
-    });  
+
+    });
 };
 
 exports.getCart = (req, res, next) => { //cart 
@@ -41,8 +41,8 @@ exports.getCart = (req, res, next) => { //cart
     res.render('shop/cart', {
         title: "Cart",
         path: "/cart"
-        
-    });  
+
+    });
 };
 
 exports.getOrders = (req, res, next) => { //orders info
@@ -50,14 +50,21 @@ exports.getOrders = (req, res, next) => { //orders info
     res.render('shop/orders', {
         title: "Orders",
         path: "/orders"
-        
-    });  
+
+    });
 };
 
-exports.getProduct = (req, res, next) => {//products sayfası
+exports.getProduct = (req, res, next) => {//product sayfası
+
     const productId = req.params.productid
-    console.log(Product.getById(productId));
-    res.redirect('/');  
- 
+
+    const product = Product.getById(req.params.productid);
+
+
+    res.render('shop/product-detail', {
+        title: product.name,
+        product: product,
+         path: '/products'
+    });
 
 };
