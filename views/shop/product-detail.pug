@@ -3,17 +3,27 @@ extends ../layouts/main-layouts.pug
 
  
 block content
+
+
     .row
-        .col-md-4
+        .col-md-3
+           include ../includes/menu.pug   
+     
+    
+        .col-md-9.pl-3
+            h1.mb-3 #{product.name}
+            hr
+            p.p-3 #{product.description}
+            hr
+            a(href="").btn.btn-link.p-0.mb-3 Telefon
+                h4.text-primary.mb-3 #{product.price} TL
+                button(type="submit").btn.btn-primary.btn-lg Add To Chart
+
+ 
+     
              
-        .col-md-8.pl-12
-            hr
-            h1 #{product.name}
-            hr
+    
 
-            p #{product.description}
-            hr
-            p  price: #{product.price}
-            button(type="submit").btn.btn-primary.btn-lg Add To Chart
-
+                
+             
 

@@ -34,5 +34,10 @@ router.get('/orders', shopController.getOrders);
 
 
 
+router.get('/categories/:categoryid', shopController.getProductsByCategoryId);
+
+ 
+
+
 
 module.exports = router;

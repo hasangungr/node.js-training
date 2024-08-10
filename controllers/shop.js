@@ -1,13 +1,16 @@
 
+const Category = require('../models/category');
 const Product = require('../models/product');
 
 
 
 exports.getIndex = (req, res, next) => { //home page
     const products = Product.getAll();
+    const categories = Category.getAll();
     res.render('shop/index', {
         title: "Home Page",
         products: products,
+        categories: categories,
         path: "/"
 
     });
@@ -16,11 +19,12 @@ exports.getIndex = (req, res, next) => { //home page
 
 exports.getProducts = (req, res, next) => { //all products
     const products = Product.getAll();
-
+    const categories = Category.getAll();
     console.log("shop products");
     res.render('shop/products', {
         title: "Products",
         products: products,
+        categories: categories,
         path: "/products"
 
     });
@@ -55,16 +59,33 @@ exports.getOrders = (req, res, next) => { //orders info
 };
 
 exports.getProduct = (req, res, next) => {//product sayfası
-
- 
-
     const product = Product.getById(req.params.productid);
-
 
     res.render('shop/product-detail', {
         title: product.name,
         product: product,
-         path: '/products'
+        path: '/products'
     });
 
 };
+
+exports.getProductsByCategoryId = (req, res, next) => {
+
+    const categoryid = req.params.categoryid;
+
+    const products = Product.getProductsByCategoryId(categoryid);
+
+    const categories = Category.getAll();
+
+
+
+    console.log("shop products");
+    res.render('shop/products', {
+        title: "Products",
+        products: products,
+        categories: categories,
+        path: "/products"
+
+    });
+
+}

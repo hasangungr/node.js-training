@@ -2,21 +2,20 @@
 
 
 const products = [
-    { id: "13231", name: 'Samsung s6', price: '2000', imageUrl: '1.jpg', description: "Good" },
-    { id: "15234", name: 'Samsung s7', price: '3000', imageUrl: '2.jpg', description: "Bad" },
-    { id: "43232", name: 'Samsung s8', price: '4000', imageUrl: '3.jpg', description: "Normal" },
-    { id: "11219", name: 'Samsung s9', price: '5000', imageUrl: '4.jpg', description: "Bad" },
+    { id: "13231", name: 'Samsung s6', price: '2000', imageUrl: '1.jpg', description: "Good", categoryid: "1" },
+    { id: "15234", name: 'Samsung s7', price: '3000', imageUrl: '2.jpg', description: "Bad", categoryid: "1" },
+    { id: "43232", name: 'Mac', price: '4000', imageUrl: '3.jpg', description: "Normal", categoryid: "2" },
+    { id: "11219", name: 'Arçelikk', price: '5000', imageUrl: '4.jpg', description: "Bad", categoryid: "3" },
 ];
 
 module.exports = class Product {
-    constructor(name, price, imageUrl, description) {
+    constructor(name, price, imageUrl, description, categoryid) {
         this.id = (Math.floor(Math.random() * 99999) + 1).toString();
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
         this.description = description;
-
-
+        // this.categoryid = categoryid
     }
 
 
@@ -31,8 +30,8 @@ module.exports = class Product {
 
 
     static getById(id) {
-        const product = products.find(i => i.id === id);
-        return product;
+        return products.find(i => i.id === id);
+
     }
 
     static update(product) {
@@ -44,9 +43,13 @@ module.exports = class Product {
     }
 
     static deleteById(productid) {
-        const index  = products.findIndex(i => i.id === productid);
+        const index = products.findIndex(i => i.id === productid);
         products.splice(index, 1);
     }
 
+    static getProductsByCategoryId(categoryid) {
+
+        return products.filter(i => i.categoryid === categoryid);
+    }
 }
 
