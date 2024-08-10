@@ -7,9 +7,16 @@ exports.getProducts = (req, res, next) => {//products sayfası
     res.render('admin/products', {//admin/products klasöründe ki pug
         title: "Admin Products",
         products: products,
-        path: "/admin/products" //path
-        //dynamic
+        path: "/admin/products", //path
+
+        action:req.query.action, //linkin sonundaki querystring parametreleri
+        
+        id:req.query.id
+       
     }); //engine kullanılır viewse gider ve pugdosyasını çalıştırır
+
+
+    
 
 };
 
@@ -69,6 +76,6 @@ exports.postEditProduct = (req, res, next) => { //sadece post da çalışır
     Product.update(product);
 
 
-    res.redirect('/admin/products'); //işlemler bittikten sonra anasayfa ya dön
+    res.redirect('/admin/products?action=edit&id='+product.id); //tipler 
 }
 
