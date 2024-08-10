@@ -15,7 +15,7 @@ module.exports = class Product {
         this.price = price;
         this.imageUrl = imageUrl;
         this.description = description;
-        // this.categoryid = categoryid
+        this.categoryid = categoryid
     }
 
 
@@ -40,6 +40,7 @@ module.exports = class Product {
         products[index].name = product.name;
         products[index].price = product.price;
         products[index].description = product.description;
+        products[index].categoryid = product.categoryid;
     }
 
     static deleteById(productid) {

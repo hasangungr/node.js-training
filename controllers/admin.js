@@ -1,5 +1,6 @@
 
 const Product = require('../models/product');
+const Category = require('../models/category');
 
 exports.getProducts = (req, res, next) => {//products sayfası
     console.log("admin products");
@@ -20,8 +21,11 @@ exports.getAddProduct = (req, res, next) => { //product ekleme sayfası
     console.log('add product get middleware')
     // res.sendFile(path.join(__dirname, '../', 'views', 'add-product.html'));
 
+    const categories = Category.getAll();
+
     res.render('admin/add-product', {
         title: "New Product",
+        categories: categories,
         path: "/admin/add-product"
     }); //engine kullanılır viewse gider ve pugdosyasını çalıştırır
 }
@@ -32,7 +36,7 @@ exports.postAddProducts = (req, res, next) => { //sadece post da çalışır
     // products.push({ name: req.body.name, price: req.body.price, image: req.body.image, description: req.body.description });
     // console.log(req.body);
 
-    const product = new Product(req.body.name, req.body.price, req.body.imageUrl, req.body.description);
+    const product = new Product(req.body.name, req.body.price, req.body.imageUrl, req.body.description,req.body.categoryid);
     product.saveProduct();
     res.redirect('/'); //işlemler bittikten sonra anasayfa ya dön
 }
@@ -40,10 +44,14 @@ exports.postAddProducts = (req, res, next) => { //sadece post da çalışır
 
 exports.getEditProduct = (req, res, next) => {
     const product = Product.getById(req.params.productid);
+    const categories = Category.getAll();
+
+
 
     res.render('admin/edit-product', {
         title: "Edit Product",
         path: "/admin/products",
+        categories: categories,
         product: product
     }); //engine kullanılır viewse gider ve pugdosyasını çalıştırır
 }
@@ -61,9 +69,10 @@ exports.postEditProduct = (req, res, next) => { //sadece post da çalışır
     product.name = req.body.name;
     product.price = req.body.price;
     product.description = req.body.description;
+    product.categoryid = req.body.categoryid;
     Product.update(product);
 
 
-    res.redirect('/admin/products?action=edit&id='+product.id); //tipler 
+    res.redirect('/admin/products?action=edit&id=' + product.id); //tipler 
 }
 

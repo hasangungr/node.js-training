@@ -61,9 +61,12 @@ exports.getOrders = (req, res, next) => { //orders info
 exports.getProduct = (req, res, next) => {//product sayfası
     const product = Product.getById(req.params.productid);
 
+    const categories = Category.getAll();
+
     res.render('shop/product-detail', {
         title: product.name,
         product: product,
+        categories: categories,
         path: '/products'
     });
 
@@ -84,6 +87,7 @@ exports.getProductsByCategoryId = (req, res, next) => {
         title: "Products",
         products: products,
         categories: categories,
+        selectedCategoryId: categoryid,
         path: "/products"
 
     });
