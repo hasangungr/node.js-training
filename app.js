@@ -1,4 +1,4 @@
- 
+
 
 const express = require('express'); //express paketi importu middleware kullanmak için
 const app = express(); //nesnesi
@@ -16,17 +16,27 @@ app.use(bp.urlencoded({ extended: false })); //temel veri türlerini parse eder
 app.use('/admin', adminRoutes); //middleware app use ile kullanılmalı //admin route'daki middlewareleri kullanmak için
 app.use(userRoutes); //middleware app use ile kullanılmalı //shopdaki route'daki middlewareleri kullanmak için
 
- 
+
+//mysql 
+const connection = require('./utility/database');
 
 
 
- 
+
+
+
+
 // app.use((req, res, next) => {
 //     console.log('internal mid');
 //     next(); //bu middle bitip diğer middle'a geçer, bunu yazmazsan bir sonraki midd'e geçmez veya response döndürürse geçmez
 // });
 
- 
+connection.execute('SELECT * FROM `node-app`.products')
+    .then((result) => {
+        console.log(result[0][0]);
+    }).catch((error) => {
+        console.log(error);
+    });
 
 app.use(errorControllers.get404page);
 
