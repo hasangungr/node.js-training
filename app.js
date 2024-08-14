@@ -17,8 +17,7 @@ app.use('/admin', adminRoutes); //middleware app use ile kullanılmalı //admin 
 app.use(userRoutes); //middleware app use ile kullanılmalı //shopdaki route'daki middlewareleri kullanmak için
 
 
-//mysql 
-const connection = require('./utility/database');
+
 
 
 
@@ -31,14 +30,14 @@ const connection = require('./utility/database');
 //     next(); //bu middle bitip diğer middle'a geçer, bunu yazmazsan bir sonraki midd'e geçmez veya response döndürürse geçmez
 // });
 
-connection.execute('SELECT * FROM `node-app`.products')
-    .then((result) => {
-        console.log(result[0][0]);
-    }).catch((error) => {
-        console.log(error);
-    });
+// connection.execute('SELECT * FROM `node-app`.products')
+//     .then((result) => {
+//         console.log(result[0][0]);
+//     }).catch((error) => {
+//         console.log(error);
+//     });
 
-app.use(errorControllers.get404page);
+// app.use(errorControllers.get404page);
 
 
 

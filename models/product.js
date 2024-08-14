@@ -1,16 +1,11 @@
 
 
-
-const products = [
-    { id: "13231", name: 'Samsung s6', price: '2000', imageUrl: '1.jpg', description: "Good", categoryid: "1" },
-    { id: "15234", name: 'Samsung s7', price: '3000', imageUrl: '2.jpg', description: "Bad", categoryid: "1" },
-    { id: "43232", name: 'Mac', price: '4000', imageUrl: '3.jpg', description: "Normal", categoryid: "2" },
-    { id: "11219", name: 'Arçelikk', price: '5000', imageUrl: '4.jpg', description: "Bad", categoryid: "3" },
-];
+//mysql 
+const connection = require('../utility/database');
 
 module.exports = class Product {
     constructor(name, price, imageUrl, description, categoryid) {
-        this.id = (Math.floor(Math.random() * 99999) + 1).toString();
+        // this.id = (Math.floor(Math.random() * 99999) + 1).toString();
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
@@ -20,37 +15,48 @@ module.exports = class Product {
 
 
     saveProduct() {
-        products.push(this);
+        // products.push(this);
+
+
+        return connection.execute('insert into  products(name,price,imageUrl,description) values (?,?,?,?)',
+            [this.name, this.price, this.imageUrl, this.description]);
     }
 
     static getAll() {
-        return products;
+        // return products;
+        return connection.execute('SELECT * FROM products');
     }
 
 
 
     static getById(id) {
-        return products.find(i => i.id === id);
+        // return products.find(i => i.id === id);
+        return connection.execute('SELECT * FROM products where products.id=?', [id]);
 
     }
 
     static update(product) {
-        const index = products.findIndex(i => i.id === product.id);
+        // const index = products.findIndex(i => i.id === product.id);
 
-        products[index].name = product.name;
-        products[index].price = product.price;
-        products[index].description = product.description;
-        products[index].categoryid = product.categoryid;
+        // products[index].name = product.name;
+        // products[index].price = product.price;
+        // products[index].description = product.description;
+        // products[index].categoryid = product.categoryid;
+
+        return connection.execute(`update products set products.name=?,products.price=?,products.imageUrl=?,products.description=?
+             where products.id=?`, [product.name, product.price, product.imageUrl, product.description, product.id]);
     }
 
     static deleteById(productid) {
-        const index = products.findIndex(i => i.id === productid);
-        products.splice(index, 1);
+        // const index = products.findIndex(i => i.id === productid);
+        // products.splice(index, 1);
+
+        return connection.execute('delete from products where products.id=?', [productid]);
     }
 
     static getProductsByCategoryId(categoryid) {
 
-        return products.filter(i => i.categoryid === categoryid);
+        // return products.filter(i => i.categoryid === categoryid);
     }
 }
 

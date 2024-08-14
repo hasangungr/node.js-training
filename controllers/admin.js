@@ -4,15 +4,20 @@ const Category = require('../models/category');
 
 exports.getProducts = (req, res, next) => {//products sayfası
     console.log("admin products");
-    const products = Product.getAll();
-    res.render('admin/products', {//admin/products klasöründe ki pug
-        title: "Admin Products",
-        products: products,
-        path: "/admin/products", //path
-        action: req.query.action, //linkin sonundaki querystring parametreleri
-        id: req.query.id
+    Product.getAll().then(products => {
+        res.render('admin/products', {//admin/products klasöründe ki pug
+            title: "Admin Products",
+            products: products[0],
+            path: "/admin/products", //path
+            action: req.query.action, //linkin sonundaki querystring parametreleri
+            id: req.query.id
+        }); //engine kullanılır viewse gider ve pugdosyasını çalıştırır
 
-    }); //engine kullanılır viewse gider ve pugdosyasını çalıştırır
+    }).catch(
+        (error => {
+            console.log(error)
+        })
+    );
 };
 
 
@@ -36,43 +41,69 @@ exports.postAddProducts = (req, res, next) => { //sadece post da çalışır
     // products.push({ name: req.body.name, price: req.body.price, image: req.body.image, description: req.body.description });
     // console.log(req.body);
 
-    const product = new Product(req.body.name, req.body.price, req.body.imageUrl, req.body.description,req.body.categoryid);
-    product.saveProduct();
-    res.redirect('/'); //işlemler bittikten sonra anasayfa ya dön
+    const product = new Product(req.body.name, req.body.price, req.body.imageUrl, req.body.description);
+    console.log(product);
+    product.saveProduct().then(
+        () => {
+            res.redirect('/'); //işlemler bittikten sonra anasayfa ya dön
+        }
+    ).catch((e) => {
+        console.log(e);
+    });
 }
 
 
 exports.getEditProduct = (req, res, next) => {
-    const product = Product.getById(req.params.productid);
     const categories = Category.getAll();
+    return Product.getById(req.params.productid).then(
+        (product) => {
+
+
+            res.render('admin/edit-product', {
+                title: "Edit Product",
+                path: "/admin/products",
+                categories: categories,
+                product: product[0][0]
+            }); //engine kullanılır viewse gider ve pugdosyasını çalıştırır
+        }
+    ).catch(
+        (error => {
+            console.log(error)
+        })
+    );
 
 
 
-    res.render('admin/edit-product', {
-        title: "Edit Product",
-        path: "/admin/products",
-        categories: categories,
-        product: product
-    }); //engine kullanılır viewse gider ve pugdosyasını çalıştırır
 }
 
 exports.postDeleteProduct = (req, res, next) => {
     console.log('delete');
-    Product.deleteById(req.body.productid);
-    res.redirect('/admin/products?action=delete');
+    Product.deleteById(req.body.productid).then(
+        () => {
+            res.redirect('/admin/products?action=delete');
+        }
+    ).catch((e)=>{
+        console.log(e);
+    });
+
+
 }
 
 
 exports.postEditProduct = (req, res, next) => { //sadece post da çalışır
 
-    const product = Product.getById(req.body.id);
+    const product = new Product();
+    product.id = req.body.id;
     product.name = req.body.name;
     product.price = req.body.price;
     product.description = req.body.description;
     product.categoryid = req.body.categoryid;
-    Product.update(product);
-
-
-    res.redirect('/admin/products?action=edit&id=' + product.id); //tipler 
+    Product.update(product).then(
+        (product) => {
+            res.redirect('/admin/products?action=edit&id=' + product.id); //tipler 
+        }
+    ).catch((e) => {
+        console.log(e);
+    });
 }
 
