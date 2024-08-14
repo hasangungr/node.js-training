@@ -26,13 +26,19 @@ exports.getAddProduct = (req, res, next) => { //product ekleme sayfası
     console.log('add product get middleware')
     // res.sendFile(path.join(__dirname, '../', 'views', 'add-product.html'));
 
-    const categories = Category.getAll();
+    Category.getAll().then(
+        (categories) => {
+            res.render('admin/add-product', {
+                title: "New Product",
+                categories: categories[0],
+                path: "/admin/add-product"
+            }); //engine kullanılır viewse gider ve pugdosyasını çalıştırır
+        }
+    ).catch((error => {
+        console.log(error)
+    }));
 
-    res.render('admin/add-product', {
-        title: "New Product",
-        categories: categories,
-        path: "/admin/add-product"
-    }); //engine kullanılır viewse gider ve pugdosyasını çalıştırır
+
 }
 
 exports.postAddProducts = (req, res, next) => { //sadece post da çalışır
@@ -41,7 +47,7 @@ exports.postAddProducts = (req, res, next) => { //sadece post da çalışır
     // products.push({ name: req.body.name, price: req.body.price, image: req.body.image, description: req.body.description });
     // console.log(req.body);
 
-    const product = new Product(req.body.name, req.body.price, req.body.imageUrl, req.body.description);
+    const product = new Product(req.body.name, req.body.price, req.body.imageUrl, req.body.description,req.body.categoryid);
     console.log(product);
     product.saveProduct().then(
         () => {
@@ -54,26 +60,28 @@ exports.postAddProducts = (req, res, next) => { //sadece post da çalışır
 
 
 exports.getEditProduct = (req, res, next) => {
-    const categories = Category.getAll();
+   
     return Product.getById(req.params.productid).then(
         (product) => {
-
-
-            res.render('admin/edit-product', {
-                title: "Edit Product",
-                path: "/admin/products",
-                categories: categories,
-                product: product[0][0]
-            }); //engine kullanılır viewse gider ve pugdosyasını çalıştırır
+            Category.getAll().then(
+                (categories)=>{
+                    res.render('admin/edit-product', {
+                        title: "Edit Product",
+                        path: "/admin/products",
+                        categories: categories[0],
+                        product: product[0][0]
+                    }); 
+                }
+            ).catch( (e)=>{
+                console.log(e);
+            });
+            //engine kullanılır viewse gider ve pugdosyasını çalıştırır
         }
     ).catch(
         (error => {
             console.log(error)
         })
     );
-
-
-
 }
 
 exports.postDeleteProduct = (req, res, next) => {
@@ -82,7 +90,7 @@ exports.postDeleteProduct = (req, res, next) => {
         () => {
             res.redirect('/admin/products?action=delete');
         }
-    ).catch((e)=>{
+    ).catch((e) => {
         console.log(e);
     });
 
@@ -96,6 +104,7 @@ exports.postEditProduct = (req, res, next) => { //sadece post da çalışır
     product.id = req.body.id;
     product.name = req.body.name;
     product.price = req.body.price;
+    product.imageUrl = req.body.imageUrl;
     product.description = req.body.description;
     product.categoryid = req.body.categoryid;
     Product.update(product).then(

@@ -18,8 +18,8 @@ module.exports = class Product {
         // products.push(this);
 
 
-        return connection.execute('insert into  products(name,price,imageUrl,description) values (?,?,?,?)',
-            [this.name, this.price, this.imageUrl, this.description]);
+        return connection.execute('insert into  products(name,price,imageUrl,description,categoryid) values (?,?,?,?,?)',
+            [this.name, this.price, this.imageUrl, this.description, this.categoryid]);
     }
 
     static getAll() {
@@ -43,8 +43,10 @@ module.exports = class Product {
         // products[index].description = product.description;
         // products[index].categoryid = product.categoryid;
 
-        return connection.execute(`update products set products.name=?,products.price=?,products.imageUrl=?,products.description=?
-             where products.id=?`, [product.name, product.price, product.imageUrl, product.description, product.id]);
+        console.log(product)
+
+        return connection.execute(`update products set products.name=?,products.price=?,products.imageUrl=?,products.description=?, products.categoryid=?
+             where products.id=?`, [product.name, product.price, product.imageUrl, product.description,  product.categoryid, product.id]);
     }
 
     static deleteById(productid) {
