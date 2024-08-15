@@ -3,4 +3,40 @@ extends ../layouts/main-layouts.pug
 
 block content 
     
- 
+    if orders.length > 0 
+
+        each order in orders
+            .card.mb-5
+                .card-header
+                    h3 Order ID  ##{order.id}
+                
+                table.table
+                    thead
+                        tr 
+                            
+                            th Product Name
+                            th Price
+                            th Quantity
+
+                        tbody 
+                            each product in order.products
+
+                                tr
+                                    td #{product.name}
+                                    td #{product.orderItem.price}
+                                    td #{product.orderItem.quantity}
+                        
+                        tfoot 
+                            tr 
+                                td(colspan = "2") #{order.createdAt.toDateString()}
+                                td
+                                - var total = 0;
+                                each product in order.products
+                                    - total += product.price * product.orderItem.quantity
+                                td #{total} TL
+
+                                        
+                    
+
+    else 
+        h1 No Orders

@@ -241,12 +241,19 @@ exports.getProductsByCategoryId = (req, res, next) => {
 
 
 exports.getOrders = (req, res, next) => { //orders info
-    // const products = Product.getAll();
-    res.render('shop/orders', {
-        title: "Orders",
-        path: "/orders"
 
+    //include: ilişkili olan product kayıtlarını da getir{ include: ['product'] }
+    req.user.getOrders({ include: ['products'] }).then(orders => {
+        console.log(orders)
+        res.render('shop/orders', {
+            title: "Orders",
+            path: "/orders",
+            orders: orders
+        });
+    }).catch(e => {
+        console.log(e);
     });
+
 };
 
 
