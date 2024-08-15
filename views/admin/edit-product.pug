@@ -35,12 +35,12 @@ block content
 
 
                 div.form-group.row
-                    label(for="categoryid").col-sm-2.col-form-label Description
+                    label(for="categoryId").col-sm-2.col-form-label Category
                     div.col-sm-10 
-                        select.form-control#categoryid(name="categoryid")
+                        select.form-control#categoryId(name="categoryId")
                             option(value="-1" ) Select Category
                             each c in categories
-                                option(value=c.id,selected=c.id === product.categoryid)  #{c.name}
+                                option(value=c.id,selected=c.id === product.categoryId)  #{c.name}
 
                 div.form-group.row
                     label(for="description").col-sm-2.col-form-label Description

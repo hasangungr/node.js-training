@@ -14,4 +14,8 @@ mixin createProduct(product)
                     
                     a(href="#").btn.btn-secondary.btn-sm  Details
 
-                    a(href="#").btn.btn-secondary.btn-sm.ml-3 Add To Chart 
+
+
+                    form(action='/cart' method= 'POST')
+                        input(type="hidden" value =`${product.id}` name = 'productId')
+                        button(type='submit').btn.btn-secondary.btn-sm.ml-3 Add To Charts

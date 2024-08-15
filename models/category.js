@@ -5,7 +5,8 @@ const Category = sequelize.define('category', { //sequelize model
     id:
     {
         type: Sequelize.INTEGER,
-        autorIncrement: true,
+
+        autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },

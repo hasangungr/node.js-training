@@ -25,52 +25,35 @@ exports.getProducts = (req, res, next) => {//products sayfası
 
 
 exports.getAddProduct = (req, res, next) => { //product ekleme sayfası
-    res.render('admin/add-product', {
-        title: "New Product",
-        // categories: categories[0],
-        path: "/admin/add-product"
+
+    Category.findAll().then(
+        (categories) => {
+            res.render('admin/add-product', {
+                title: "New Product",
+                categories: categories,
+                path: "/admin/add-product"
+            });
+        }
+    ).catch((e) => {
+        console.log(e);
     });
+
 
 }
 
 exports.postAddProducts = (req, res, next) => { //sadece post da çalışır
-
-
-    const name = req.body.name;
-    const price = req.body.price;
-    const imageUrl = req.body.imageUrl;
-    const description = req.body.description;
-    // const categoryid = req.body.name
-
-    // Product.create(
-    //     {
-    //         name: name,
-    //         price: price,
-    //         imageUrl: imageUrl,
-    //         description: description
-    //     }
-    // ).then(
-    //     result => { res.redirect('/'); }
-    // ).catch(error => { console.log(error); });
-
-
-    const prd = Product.build({
-        name: name,
-        price: price,
-        imageUrl: imageUrl,
-        description: description
-
-    });
-
-    prd.save().then(result => {
-        console.log(result);
-        res.redirect('/');
-    }).catch(error => {
-        console.log(error);
-    })
-
-
-
+    req.user.createProduct(
+        {
+            name: req.body.name,
+            price: req.body.price,
+            imageUrl: req.body.imageUrl,
+            description: req.body.description,
+            categoryId: req.body.categoryid,
+            // userId: req.user.id
+        }
+    ).then(
+        () => { res.redirect('/'); }
+    ).catch(error => { console.log(error); });
 
 }
 
@@ -107,20 +90,13 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postEditProduct = (req, res, next) => { //sadece post da çalışır
 
-    const id = req.body.id;
-    const name = req.body.name;
-    const price = req.body.price;
-    const imageUrl = req.body.imageUrl;
-    const description = req.body.description;
-    const categoryid = req.body.categoryid;
-
-    Product.findByPk(id).then(
+    Product.findByPk(req.body.id).then(
         product => {
-            product.name = name;
-            product.price = price;
-            product.description = description;
-
-            // product.categoryid = categoryid;
+            product.name = req.body.name;
+            product.price = req.body.price;
+            product.description = req.body.description;
+            product.imageUrl = req.body.imageUrl;
+            product.categoryId = req.body.categoryId;
 
             return product.save();
         }
@@ -154,4 +130,4 @@ exports.postDeleteProduct = (req, res, next) => {
 
 }
 
- 
+
