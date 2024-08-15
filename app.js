@@ -11,8 +11,9 @@ app.set('views', './views'); //pug dosyalarının hangi dosyada saklanacağı
 const adminRoutes = require('./routes/admin'); //admin route'u
 const userRoutes = require('./routes/shop');//shop route'u 
 const errorControllers = require('./controllers/error'); //error route
-
 const sequelize = require('./utility/database');
+
+
 
 app.use(bp.urlencoded({ extended: false })); //temel veri türlerini parse eder
 app.use('/admin', adminRoutes); //middleware app use ile kullanılmalı //admin route'daki middlewareleri kullanmak için
@@ -20,17 +21,17 @@ app.use(userRoutes); //middleware app use ile kullanılmalı //shopdaki route'da
 
 
 
-async function connectToDatabase() {
-    try {
-      await sequelize.authenticate();
-      console.log('Connection has been established successfully.');
-    } catch (error) {
-      console.error('Unable to connect to the database:', error);
-    }
-  }
-  
-  // Fonksiyonu çağırın
-  connectToDatabase();
+// async function connectToDatabase() {
+//     try {
+//       await sequelize.authenticate();
+//       console.log('Connection has been established successfully.');
+//     } catch (error) {
+//       console.error('Unable to connect to the database:', error);
+//     }
+//   }
+
+//   // Fonksiyonu çağırın
+//   connectToDatabase();
 
 
 
@@ -51,6 +52,16 @@ async function connectToDatabase() {
 
 
 
+
+sequelize.sync().then(
+  result => {
+    console.log(result);
+  }
+).catch(error => {
+  console.log(error);
+});
+
+
 app.listen(3000, () => {
-    console.log('listeining on port 3000');
+  console.log('listeining on port 3000');
 })

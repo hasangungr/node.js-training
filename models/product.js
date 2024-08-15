@@ -5,10 +5,8 @@ const Product = sequelize.define('product', { //sequelize model
     id:
     {
         type: Sequelize.INTEGER,
-        autorIncrement: true,
-        allowNull: false,
+        autoIncrement: true,
         primaryKey: true
-
     },
     name: {
         type: Sequelize.STRING,
@@ -27,6 +25,9 @@ const Product = sequelize.define('product', { //sequelize model
         allowNull: false,
     },
 });
+
+
+
 
 
 module.exports = Product;

@@ -5,16 +5,24 @@ const Product = require('../models/product');
 
 
 exports.getIndex = (req, res, next) => { //home page
-    // const products = Product.getAll();
-    const categories = Category.getAll();
-    Product.getAll().then(products => {
-        res.render('shop/index', {
-            title: "Home Page",
-            products: products[0],
-            categories: categories,
-            path: "/"
 
-        });
+    Product.findAll({
+        attributes: ['id', 'name', 'price'],
+    }).then(products => {
+        const categories = Category.findAll().then(
+            categories => {
+                res.render('shop/index', {
+                    title: "Home Page",
+                    products: products,
+                    categories: categories,
+                    path: "/"
+
+                });
+            }
+        ).cath((error => {
+            console.log(error)
+        }));
+
     }).catch(
         (error => {
             console.log(error)
@@ -27,22 +35,32 @@ exports.getIndex = (req, res, next) => { //home page
 
 exports.getProducts = (req, res, next) => { //all products
 
-    const categories = Category.getAll();
 
+    Product.findAll(
+        {
+            attributes: ['id', 'name', 'price', 'description'],
+        }
+    ).then(products => {
+        const categories = Category.findAll().then(
+            categories => {
+                res.render('shop/products', {
+                    title: "Products",
+                    products: products,
+                    categories: categories,
+                    path: "/products"
 
-    Product.getAll().then(products => {
-        res.render('shop/products', {
-            title: "Products",
-            products: products[0],
-            categories: categories,
-            path: "/products"
+                });
+            }
+        ).cath((error => {
+            console.log(error)
+        }));
 
-        });
     }).catch(
         (error => {
             console.log(error)
         })
     );
+
 
 
 
@@ -77,23 +95,41 @@ exports.getOrders = (req, res, next) => { //orders info
 };
 
 exports.getProduct = (req, res, next) => {//product sayfası
-    const categories = Category.getAll();
-    Product.getById(req.params.productid).then(
-        (product) => {
 
-            console.log(product[0]);
-            res.render('shop/product-detail', {
-                title: product[0][0].name,
-                product: product[0][0],
-                categories: categories,
-                path: '/products'
-            });
+    Product.findAll({
+
+        attributes: ['id', 'name', 'price', 'description'],
+        where: {
+            id: req.params.productid
         }
-    ).catch(
-        (error => {
-            console.log(error)
+
+
+    }).then(
+        products => res.render('shop/product-detail', {
+            title: products[0].name,
+            product: products[0],
+            // categories: categories,
+            path: '/products'
         })
-    );
+
+
+    ).catch((error => {
+        console.log(error)
+    }));
+    // Product.findByPk(req.params. productid).then(
+    //     (product) => {
+    //         res.render('shop/product-detail', {
+    //             title: product.name,
+    //             product: product,
+    //             // categories: categories,
+    //             path: '/products'
+    //         });
+    //     }
+    // ).catch(
+    //     (error => {
+    //         console.log(error)
+    //     })
+    // );
 };
 
 exports.getProductsByCategoryId = (req, res, next) => {
