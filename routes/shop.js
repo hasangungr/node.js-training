@@ -20,7 +20,7 @@ const shopController = require('../controllers/shop');
 
 
 // /admin/add-prduct=> GET
-router.get('/',shopController.getIndex);
+router.get('/', shopController.getIndex);
 
 router.get('/products', shopController.getProducts);
 
@@ -33,12 +33,15 @@ router.post('/cart', shopController.postCart);
 router.post('/delete-cartitem', shopController.postCartItemDelete);
 
 router.get('/orders', shopController.getOrders);
+router.post('/create-order', shopController.postOrder);
 
 
 
 router.get('/categories/:categoryid', shopController.getProductsByCategoryId);
 
- 
+
+
+
 
 
 

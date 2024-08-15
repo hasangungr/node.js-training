@@ -175,17 +175,6 @@ exports.postCartItemDelete = (req, res, next) => { //orders info
 
 };
 
-
-
-exports.getOrders = (req, res, next) => { //orders info
-    const products = Product.getAll();
-    res.render('shop/orders', {
-        title: "Orders",
-        path: "/orders"
-
-    });
-};
-
 exports.getProduct = (req, res, next) => {//product sayfası
 
     Product.findAll({
@@ -246,3 +235,54 @@ exports.getProductsByCategoryId = (req, res, next) => {
             console.log(e);
         })
 }
+
+
+
+
+
+exports.getOrders = (req, res, next) => { //orders info
+    // const products = Product.getAll();
+    res.render('shop/orders', {
+        title: "Orders",
+        path: "/orders"
+
+    });
+};
+
+
+
+
+exports.postOrder = (req, res, next) => { //orders info
+
+    console.log("post order");
+    let userCart;
+    req.user.getCart().then(cart => {
+        userCart = cart;
+        return cart.getProducts();
+    }).then(
+        products => {
+
+
+            return req.user.createOrder()
+                .then(order => {
+                    order.addProducts(products.map(product => {
+                        product.orderItem = {
+                            quantity: product.cartItem.quantity,
+                            price: product.price
+                        }
+                        return product;
+                    }));
+
+                }).catch(e => { console.log(e); });
+        })
+        .then(() => {
+            userCart.setProducts(null);
+
+        })
+        .then(() => {
+            res.redirect("orders");
+        })
+        .catch(e => {
+            console.log(e);
+        });
+};

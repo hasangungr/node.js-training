@@ -46,7 +46,8 @@ block content
 
         .text-center
             a(href="/").btn.btn-primary.mr-12 Continue
-            a(href="/checkout").btn.btn-primary.ml-12 Completed
+            form(action="/create-order" method= "POST")
+                button(type="submit").btn.btn-secondary.ml-12 Completed
 
     else
         h1 No Products                      
