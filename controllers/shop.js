@@ -81,6 +81,7 @@ exports.getCart = (req, res, next) => { //cart
     req.user.getCart().then(cart => {
         return cart.getProducts().then(
             products => {
+                console.log(products);
                 res.render('shop/cart', {
                     title: "Cart",
                     path: "/cart",
@@ -153,6 +154,26 @@ exports.postCart = (req, res, next) => { //cart
     //     });
 };
 
+
+
+exports.postCartItemDelete = (req, res, next) => { //orders info
+    req.user.getCart().then(cart => {
+        return cart.getProducts({
+            where: {
+                id: req.body.productid
+            }
+        }).then(products => {
+            return products[0].cartItem.destroy().then(
+                () => {
+                    res.redirect('/cart');
+                }
+            );
+
+        })
+    })
+
+
+};
 
 
 
