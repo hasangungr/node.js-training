@@ -11,8 +11,10 @@ app.set('view engine', 'pug');//template engine kurulumu, view engini kullanıl�
 app.set('views', './views'); //pug dosyalarının hangi dosyada saklanacağı 
 
 
+const mongoConnect = require('./utility/database').mongoConnect;
+
 //routes
-// const adminRoutes = require('./routes/admin'); //admin route'u
+const adminRoutes = require('./routes/admin'); //admin route'u
 // const userRoutes = require('./routes/shop');//shop route'u 
 const errorControllers = require('./controllers/error'); //error route
 // const sequelize = require('./utility/database'); //db route
@@ -32,7 +34,7 @@ const errorControllers = require('./controllers/error'); //error route
 // });
 
 app.use(bp.urlencoded({ extended: false })); //temel veri türlerini parse eder
-// app.use('/admin', adminRoutes); //middleware app use ile kullanılmalı //admin route'daki middlewareleri kullanmak için
+app.use('/admin', adminRoutes); //middleware app use ile kullanılmalı //admin route'daki middlewareleri kullanmak için
 // app.use(userRoutes); //middleware app use ile kullanılmalı //shopdaki route'daki middlewareleri kullanmak için
 
 
@@ -138,11 +140,11 @@ app.use(bp.urlencoded({ extended: false })); //temel veri türlerini parse eder
 //   });
 
 
-const mongoConnect = require('./utility/database');
+
 
 mongoConnect((client) => {
   app.listen(3000, () => {
-    console.log(client);
+    // console.log(client);
   })
 })
 

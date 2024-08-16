@@ -10,10 +10,8 @@ block content
             hr
             form(method="POST" action="/admin/products")
 
-                
-
-
-                input#id(type="hidden" name="id" value=product.id)
+            
+                input#id(type="hidden" name="id" value=`${product._id}`)
 
 
                 div.form-group.row
@@ -34,13 +32,13 @@ block content
                         input.form-control#imageUrl(type="text" name="imageUrl", value=product.imageUrl)
 
 
-                div.form-group.row
-                    label(for="categoryId").col-sm-2.col-form-label Category
-                    div.col-sm-10 
-                        select.form-control#categoryId(name="categoryId")
-                            option(value="-1" ) Select Category
-                            each c in categories
-                                option(value=c.id,selected=c.id === product.categoryId)  #{c.name}
+                //- div.form-group.row
+                //-     label(for="categoryId").col-sm-2.col-form-label Category
+                //-     div.col-sm-10 
+                //-         select.form-control#categoryId(name="categoryId")
+                //-             option(value="-1" ) Select Category
+                //-             each c in categories
+                //-                 option(value=c.id,selected=c.id === product.categoryId)  #{c.name}
 
                 div.form-group.row
                     label(for="description").col-sm-2.col-form-label Description

@@ -26,10 +26,10 @@ block content
                         td #{product.price} TL
                         td #{product.description} 
                         td
-                            a.btn.btn-primary.btn-sm(href=`/admin/products/${product.id}`) Edit
+                            a.btn.btn-primary.btn-sm(href=`/admin/products/${product._id}`) Edit
 
                             form(action='/admin/delete-product' method='POST')
-                                input(type = 'hidden' name='productid' value= `${product.id}`)
+                                input(type = 'hidden' name='productid' value= `${product._id}`)
 
                                 button(type= 'Submit').btn.btn-danger.btn-sm Delete
     else
