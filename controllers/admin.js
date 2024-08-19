@@ -1,4 +1,5 @@
 
+const Category = require('../models/category');
 const Product = require('../models/product');
 // const Category = require('../models/category');
 
@@ -34,13 +35,11 @@ exports.getAddProduct = (req, res, next) => { //product ekleme sayfası
 }
 
 exports.postAddProducts = (req, res, next) => { //sadece post da çalışır
-    const product = new Product(req.body.name, req.body.price, req.body.description, req.body.imageUrl);
+    console.log(req.user._id);
+    console.log("post edtit");
+    const product = new Product(req.body.name, req.body.price, req.body.description, req.body.imageUrl, null, req.user._id);
     product.save()
-        .then(
-            result => {
-                res.redirect('/admin/products');
-            }
-        )
+        .then(() => { res.redirect('/admin/products'); })
         .catch();
 }
 
@@ -76,7 +75,7 @@ exports.postEditProduct = (req, res, next) => {
     const description = req.body.description;
     // const categoryid = req.body.categoryid;
 
-    const product = new Product(name, price, description, imageUrl, id);
+    const product = new Product(name, price, description, imageUrl, id, req.user._id);
 
     product.save()
         .then(result => {
@@ -100,4 +99,47 @@ exports.postDeleteProduct = (req, res, next) => {
 
 }
 
+
+//category
+
+exports.getAddCategory = (req, res, next) => {
+    res.render('admin/add-category', {
+        title: 'New Category',
+        path: '/admin/add-category',
+
+    })
+}
+
+
+
+exports.postAddCategory = (req, res, next) => {
+
+    const name = req.body.name;
+    const description = req.body.description;
+
+    const category = new Category(name, description);
+    category.save().then(result => {
+        res.redirect('/admin/categories?action=create');
+    }).catch((e) => {
+        console.log(e);
+    });
+
+
+
+}
+
+exports.getCategories = (req, res, next) => {
+
+    Category.findAll().then(categories => {
+        res.render('admin/categories', {
+            title: 'Categories',
+            path: '/admin/add-category',
+            categories: categories,
+            action: req.query.action
+        })
+    }).catch((e) => {
+        console.log(e);
+    });
+
+}
 
