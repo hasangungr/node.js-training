@@ -62,20 +62,25 @@ class Product {
     static findById(productid) {
         const db = getDb();
 
-        // return db.collection('products').find({_id:new mongodb.ObjectId(productid)}).toArray()
-        //     .then(
-        //         products => {
-        //             return products;
-        //         }
-        //     )
-        //     .catch(e => {
-        //         console.log(e);
-        //     });
-
 
         return db.collection('products').findOne({ _id: new mongodb.ObjectId(productid) }).then(product => {
             return product
         }).catch(e => console.log(e));
+
+    }
+
+
+    static findByCategoryId(categoryid) {
+        const db = getDb();
+
+        return db.collection('products').find({
+            categories: categoryid
+        }).toArray().then(
+            products => {
+                return products;
+            }
+        )
+
 
     }
 
