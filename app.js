@@ -23,9 +23,9 @@ const errorControllers = require('./controllers/error'); //error route
 app.use((req, res, next) => {
   User.findByEmail('test@test.com')
     .then(user => {
-      console.log("123");
+
       req.user = new User(user.name, user.email, user._id);
-      console.log(req.user._id);
+      // console.log(req.user._id);
       next();
 
     })
@@ -67,7 +67,7 @@ mongoConnect(() => {
       return user;
     }
   }).then(result => {
-    console.log(result)
+    // console.log(result)
     app.listen(3000);
 
   }).catch(e => console.log(e));
