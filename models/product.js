@@ -31,7 +31,7 @@ class Product {
     static findAll() {
         const db = getDb();
 
-        return db.collection('products').find({}).toArray()
+        return db.collection('products').find().project({ name: 1, price: 1, description: 1, imageUrl: 0 }).toArray()
             .then(
                 products => {
                     return products;

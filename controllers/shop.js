@@ -1,61 +1,46 @@
 
-const Category = require('../models/category');
+// const Category = require('../models/category');
 const Product = require('../models/product');
 
 
 
 exports.getIndex = (req, res, next) => { //home page
-    Product.findAll({
-        attributes: ['id', 'name', 'price'],
-    }).then(products => {
-        const categories = Category.findAll().then(
-            categories => {
-                res.render('shop/index', {
-                    title: "Home Page",
-                    products: products,
-                    categories: categories,
-                    path: "/"
+    Product.findAll().then(products => {
 
-                });
-            }
-        ).cath((error => {
-            console.log(error)
-        }));
+        res.render('shop/index', {
+            title: "Home Page",
+            products: products,
+            // categories: categories, 
+            path: "/"
 
-    }).catch(
-        (error => {
-            console.log(error)
-        })
-    );
+        });
+    }
+    ).catch(error => {
+        console.log(error)
+    });
+
+}
 
 
-};
 
 
 exports.getProducts = (req, res, next) => { //all products
 
 
     console.log('get products')
-    Product.findAll(
-        {
-            attributes: ['id', 'name', 'price', 'description'],
-        }
-    ).then(products => {
-        const categories = Category.findAll().then(
-            categories => {
-                res.render('shop/products', {
-                    title: "Products",
-                    products: products,
-                    categories: categories,
-                    path: "/products"
+    Product.findAll().then(products => {
 
-                });
-            }
-        ).cath((error => {
-            console.log(error)
-        }));
+        res.render('shop/products', {
+            title: "Products",
+            products: products,
+            // categories: categories,
+            path: "/products"
 
-    }).catch(
+        });
+    }
+
+
+    ).catch(
         (error => {
             console.log(error)
         })
@@ -177,18 +162,10 @@ exports.postCartItemDelete = (req, res, next) => { //orders info
 
 exports.getProduct = (req, res, next) => {//product sayfası
 
-    Product.findAll({
-
-        attributes: ['id', 'name', 'price', 'description'],
-        where: {
-            id: req.params.productid
-        }
-
-
-    }).then(
-        products => res.render('shop/product-detail', {
-            title: products[0].name,
-            product: products[0],
+    Product.findById(req.params.productid).then(
+        product => res.render('shop/product-detail', {
+            title: product.name,
+            product: product,
             // categories: categories,
             path: '/products'
         })

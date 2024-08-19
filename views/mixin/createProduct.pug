@@ -4,7 +4,7 @@ mixin createProduct(product)
                 img(src=`${product.image}` alt="").card-img-top
                 .card-body
                     h4.card-title
-                        a(href=`/products/${product.id}`) #{product.name}
+                        a(href=`/products/${product._id}`) #{product.name}
                     
                     small.text-muted
                         i.fas.fa-lira-sign #{product.price} 
@@ -17,5 +17,5 @@ mixin createProduct(product)
 
 
                     form(action='/cart' method= 'POST')
-                        input(type="hidden" value =`${product.id}` name = 'productId')
+                        input(type="hidden" value =`${product._id}` name = 'productId')
                         button(type='submit').btn.btn-secondary.btn-sm.ml-3 Add To Charts
