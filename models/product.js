@@ -6,32 +6,46 @@ const mongodb = require('mongodb');
 
 
 class Product {
-    constructor(name, price, description, imageUrl) {
+    constructor(name, price, description, imageUrl, id) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.imageUrl = imageUrl;
+        this._id = id ? new mongodb.ObjectId(id) : null;
     }
 
 
     save() {
-        const db = getDb();
-        db.collection('products').insertOne(this)
-            .then(
-                result => {
-                    console.log(result);
-                }
-            )
+        let db = getDb();
+
+        if (this._id) {
+            db = db.collection('products')
+                .updateOne({ _id: this._id }, { $set: this });
+
+        } else {
+            db =
+                db.collection('products')
+                    .insertOne(this);
+        }
+        return db.then(
+            result => {
+                console.log(result);
+            }
+        )
             .catch(e => {
                 console.log(e);
             });
 
     }
 
+
+
+
+
     static findAll() {
         const db = getDb();
-
-        return db.collection('products').find().project({ name: 1, price: 1, description: 1, imageUrl: 0 }).toArray()
+        return db.collection('products').find().toArray()
+            // .project({ name: 1, price: 1, description: 1, imageUrl: 0 })
             .then(
                 products => {
                     return products;

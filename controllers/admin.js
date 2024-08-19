@@ -14,6 +14,7 @@ exports.getProducts = (req, res, next) => {//products sayfası
             // id: req.query.id
         }); //engine kullanılır viewse gider ve pugdosyasını çalıştırır
 
+
     }).catch(
         (error => {
             console.log(error)
@@ -47,7 +48,7 @@ exports.postAddProducts = (req, res, next) => { //sadece post da çalışır
 exports.getEditProduct = (req, res, next) => {
 
     Product.findById(req.params.productid).then(product => {
-  
+
 
         res.render('admin/edit-product', {
             title: "Edit Product",
@@ -55,6 +56,8 @@ exports.getEditProduct = (req, res, next) => {
             // categories: categories,
             product: product
         });
+
+        console.log(req.params.productid);
     }).catch(e => console.log(e));
 };
 
@@ -63,31 +66,25 @@ exports.getEditProduct = (req, res, next) => {
 
 
 
-exports.postEditProduct = (req, res, next) => { //sadece post da çalışır
 
-    Product.findByPk(req.body.id).then(
-        product => {
-            product.name = req.body.name;
-            product.price = req.body.price;
-            product.description = req.body.description;
-            product.imageUrl = req.body.imageUrl;
-            product.categoryId = req.body.categoryId;
+exports.postEditProduct = (req, res, next) => {
 
-            return product.save();
-        }
-    ).then(
-        () => {
-            res.redirect('/admin/products?action=edit&id=' + id);
-        }
-    )
-        .catch(
-            (e) => {
-                console.log(e);
-            }
+    const id = req.body.id;
+    const name = req.body.name;
+    const price = req.body.price;
+    const imageUrl = req.body.imageUrl;
+    const description = req.body.description;
+    // const categoryid = req.body.categoryid;
 
-        );
+    const product = new Product(name, price, description, imageUrl, id);
 
+    product.save()
+        .then(result => {
+            res.redirect('/admin/products?action=edit');
+        })
+        .catch(err => console.log(err));
 }
+
 
 
 exports.postDeleteProduct = (req, res, next) => {
