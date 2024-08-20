@@ -6,17 +6,22 @@ const mongodb = require('mongodb');
 
 
 class User {
-    constructor(name, email, id) {
+    constructor(name, email, id, cart) {
 
         this.name = name,
-        this.email = email,
-        this._id = id
+            this.email = email,
+            this._id = id,
+            this.cart = cart ? cart : {},
+            this.cart.items = cart ? cart.items : []
+
     }
 
     save() {
         const db = getDb();
         return db.collection('users').insertOne(this);
     }
+
+ 
 
     static findById(userid) {
         const db = getDb();

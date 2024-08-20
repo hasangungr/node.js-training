@@ -23,9 +23,7 @@ const errorControllers = require('./controllers/error'); //error route
 app.use((req, res, next) => {
   User.findByEmail('test@test.com')
     .then(user => {
-
-      req.user = new User(user.name, user.email, user._id);
-      // console.log(req.user._id);
+      req.user = new User(user.name, user.email, user._id, user.cart);
       next();
 
     })
@@ -60,7 +58,7 @@ mongoConnect(() => {
 
   User.findByEmail('test@test.com').then(user => {
     if (!user) {
-      user = new User('test', 'test@test.com');
+      user = new User('test', 'test@test.com',);
       return user.save();
     }
     else {
